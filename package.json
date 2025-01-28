@@ -25,5 +25,11 @@
 		"svelte": "^5.0.0",
 		"tailwindcss": "^3.4.17",
 		"vite": "^6.0.0"
+	},
+	"dependencies": {
+		"@threlte/core": "^8.0.1",
+		"@threlte/extras": "^9.0.1",
+		"ammo.js": "^0.0.10",
+		"three": "^0.172.0"
 	}
 }
