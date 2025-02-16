@@ -30,6 +30,9 @@
 		"@threlte/core": "^8.0.1",
 		"@threlte/extras": "^9.0.1",
 		"ammo.js": "^0.0.10",
+		"svelte-motion": "^0.12.2",
+		"svelte-tweakpane-ui": "^1.5.2",
+		"svelte-typewriter": "^3.2.3",
 		"three": "^0.172.0"
 	}
 }
