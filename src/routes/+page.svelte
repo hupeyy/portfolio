@@ -3,8 +3,10 @@
     const messages = ["web developer", "sudoku solver", "baker"];
 </script>
 
-<div class="flex flex-row text-lg gap-1">
-    <div>Hi, I'm a...</div>
+<div class="text-xl">
+    About me
+</div>
+<div class="flex flex-row text-lg gap-1"> 
     <Typewriter
         keepCursorOnFinish={true}
         mode={'loop'}
