@@ -1,6 +1,14 @@
-<script>
-    import Typewriter from 'svelte-typewriter';
-    const messages = ["web developer", "sudoku solver", "baker"];
+<script lang="ts">
+  import type { MarchingPlaneAxis } from '$lib/helpers/types'
+  import Typewriter from 'svelte-typewriter';
+  import { Canvas } from '@threlte/core';
+  import Scene from '$lib/components/Scene.svelte';
+
+  const messages = ["web developer", "sudoku solver", "baker"];
+  let ballCount = $state(5)
+  let isolation = $state(80)
+  let planeAxis: MarchingPlaneAxis =  $state('y')
+  let resolution = $state(35)
 </script>
 
 <div class="text-xl">
@@ -18,4 +26,14 @@
             <div>{message}</div>
         {/each}
     </Typewriter>
+</div>
+<div class="h-screen">
+    <Canvas>
+        <Scene
+            {ballCount}
+            {planeAxis}
+            {resolution}
+            {isolation}
+        /> 
+    </Canvas>
 </div>
