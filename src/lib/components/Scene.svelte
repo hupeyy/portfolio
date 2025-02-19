@@ -1,84 +1,45 @@
 <script lang="ts">
+  import { T } from '@threlte/core'
+  import { OrbitControls, Environment } from '@threlte/extras'
   import MarchingCubes from './MarchingCubes.svelte'
-  import MarchingPlane from './MarchingPlane.svelte'
-  import type { MarchingPlaneAxis } from '../helpers/types'
-  import { Color } from 'three'
-  import { Environment, OrbitControls } from '@threlte/extras'
-  import { MarchingCube } from '../helpers/MarchingCube'
-  import { T, useTask } from '@threlte/core'
-
-  type SceneProps = {
-    ballCount?: number
-    isolation?: number
-    planeAxis: MarchingPlaneAxis
-    resolution: number
-  }
-
-  let { ballCount = 5, isolation = 80, planeAxis = 'y', resolution = 50 }: SceneProps = $props()
-
-  const randomColor = (): Color => {
-    return new Color().setRGB(Math.random(), Math.random(), Math.random())
-  }
-
-  /**
-   * creates `count` randomly colored balls that are evenly distributed around a unit circle scaled by `scale`
-   */
-  const createBalls = (count: number, scale = 0.5): MarchingCube[] => {
-    const balls: MarchingCube[] = []
-    const m = (2 * Math.PI) / count
-    for (let i = 0; i < count; i += 1) {
-      const ball = new MarchingCube(randomColor())
-      const r = m * i
-      const x = Math.cos(r)
-      const y = Math.sin(r)
-      ball.position.set(x, 0, y).multiplyScalar(scale)
-      balls.push(ball)
-    }
-    return balls
-  }
-
-  const balls = $derived(createBalls(ballCount))
-
-  let time = 0
-  useTask((delta) => {
-    time += delta
-    let i = 0
-    for (const ball of balls) {
-      ball.position.setY(0.5 * Math.sin(time + i) - 0.5)
-      i += 1
-    }
-  })
+  import { onMount } from 'svelte';
+  
+  // Your reactive props
+  export let materialType = 'shiny';
+  export let numBlobs = 10;
+  export let resolution = 28;
+  export let isolation = 80;
+  export let floor = true;
+  export let wallx = true;
+  export let wallz = true;
+  export let speed = 1;
 </script>
 
+<!-- Camera setup -->
 <T.PerspectiveCamera
   makeDefault
-  position={[0, 0, 5]}
+  position={[0, 0, 1000]}
+  aspect={window.innerWidth / window.innerHeight}
+  fov={45}
+  near={1}
+  far={10000}
 >
   <OrbitControls />
 </T.PerspectiveCamera>
 
-<T.AmbientLight intensity={1} />
+<!-- Lighting -->
+<T.AmbientLight intensity={3} color="#323232" />
+<T.DirectionalLight intensity={3} position={[0.5, 0.5, 1]} />
+<T.PointLight intensity={3} position={[0, 0, 100]} color="#ff7c00" />
 
-<Environment url="/textures/equirectangular/hdr/shanghai_riverside_1k.hdr" />
-
-<T.Mesh>
-  <T.CylinderGeometry 
-    args={[1, 1, 2, 32]} 
-  />
-  <T.MeshStandardMaterial 
-    color="white"
-    opacity={0.5}
-    transparent
-  />
-</T.Mesh>
+<!-- Marching Cubes -->
 <MarchingCubes
-  enableColors
+  {materialType}
+  {numBlobs}
   {resolution}
   {isolation}
->
-  <T.MeshStandardMaterial vertexColors />
-  {#each balls as ball}
-    <T is={ball} />
-  {/each}
-  <MarchingPlane axis={planeAxis} />
-</MarchingCubes>
+  {floor}
+  {wallx}
+  {wallz}
+  {speed}
+/>
