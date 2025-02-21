@@ -3,18 +3,19 @@
   import { Canvas } from '@threlte/core';
   import Scene from '$lib/components/Scene.svelte';
 
-  const messages = ["web developer", "sudoku solver", "baker"];
+  const messages = ["187196", "Alex Huper"]; 
   let ballCount = $state(10)
   let isolation = $state(25)
   let resolution = $state(100)
   let floor = $state(true)
-  let wallx = $state(true)
-  let wallz = $state(true)
+  let wallx = $state(false)
+  let wallz = $state(false)
   let speed = $state(0.25)
+
 </script>
 
 <div class="text-xl">
-    About me
+  Test Subject: 
 </div>
 <div class="flex flex-row text-lg gap-1"> 
     <Typewriter
@@ -30,15 +31,6 @@
 </div>
 <div class="h-screen">
     <Canvas>
-        <Scene 
-          numBlobs={ballCount}
-          resolution={resolution}
-          isolation={isolation}
-          materialType="shiny"
-          floor={floor}
-          wallx={wallx}
-          wallz={wallz}
-          speed={speed}
-        /> 
+        <Scene /> 
     </Canvas>
 </div>

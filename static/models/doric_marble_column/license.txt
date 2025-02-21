@@ -1,0 +1,11 @@
+Model Information:
+* title:	Doric Marble Column
+* source:	https://sketchfab.com/3d-models/doric-marble-column-85e3a12f3b6c409cb1e6a8928e610c63
+* author:	notmybest3d (https://sketchfab.com/notmybest3d)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Doric Marble Column" (https://sketchfab.com/3d-models/doric-marble-column-85e3a12f3b6c409cb1e6a8928e610c63) by notmybest3d (https://sketchfab.com/notmybest3d) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

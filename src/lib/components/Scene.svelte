@@ -1,24 +1,19 @@
 <script lang="ts">
   import { T } from '@threlte/core'
-  import { OrbitControls, Environment } from '@threlte/extras'
+  import { OrbitControls, Environment, Grid } from '@threlte/extras'
   import MarchingCubes from './MarchingCubes.svelte'
-  import { onMount } from 'svelte';
+  import TestTube from './TestTube.svelte'
+  import Office from './Office.svelte'
+  import ProjectShowcase from './ProjectShowcase.svelte';
   
-  // Your reactive props
-  export let materialType = 'shiny';
-  export let numBlobs = 10;
-  export let resolution = 28;
-  export let isolation = 80;
-  export let floor = true;
-  export let wallx = true;
-  export let wallz = true;
-  export let speed = 1;
+  // Camera props
+  export let cameraPosition: [number, number, number] = [50, 20, 50]; 
 </script>
 
 <!-- Camera setup -->
 <T.PerspectiveCamera
   makeDefault
-  position={[0, 0, 1000]}
+  position={cameraPosition}
   aspect={window.innerWidth / window.innerHeight}
   fov={45}
   near={1}
@@ -32,14 +27,22 @@
 <T.DirectionalLight intensity={3} position={[0.5, 0.5, 1]} />
 <T.PointLight intensity={3} position={[0, 0, 100]} color="#ff7c00" />
 
-<!-- Marching Cubes -->
-<MarchingCubes
-  {materialType}
-  {numBlobs}
-  {resolution}
-  {isolation}
-  {floor}
-  {wallx}
-  {wallz}
-  {speed}
+
+<Grid
+  cellColor="#000000"
+  sectionColor="#000000"
+  sectionThickness={1}
+  gridSize={100}
 />
+
+<!-- Marching Cubes -->
+<MarchingCubes />
+
+<!-- Test Tube -->
+<TestTube />
+
+<!-- Office -->
+<Office />
+
+<!-- Column -->
+<ProjectShowcase />

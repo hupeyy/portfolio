@@ -3,8 +3,6 @@
   import { MarchingCubes } from 'three/examples/jsm/objects/MarchingCubes.js';
   import * as THREE from 'three';
   import { onDestroy, onMount } from 'svelte';
-	import { ToonShaderDotted } from 'three/examples/jsm/Addons.js';
-	import { lightPosition } from 'three/src/nodes/TSL.js';
   
   // Props
   export let materialType = 'shiny';
@@ -13,8 +11,10 @@
   export let resolution = 28;
   export let isolation = 80;
   export let floor = true;
-  export let wallx = true;
-  export let wallz = true;
+  export let wallx = false;
+  export let wallz = false;
+  export let position = [0, 7.1, 0];
+  export let scale = [10, 10, 10];
   
   // Component variables
   let materials: Record<string, THREE.Material>;
@@ -22,11 +22,6 @@
   let effect: MarchingCubes;
   let time = 0;
   let loaded = false;
-
-  // Lights
-  let pointLight = new THREE.PointLight(0xff7c00, 5, 0, 0);
-  pointLight.position.set(0, 0, 100);
-  let ambientLight = new THREE.AmbientLight(0x323232, 3);
   
   // Generate materials
   function generateMaterials() {
@@ -51,8 +46,6 @@
       console.warn("Could not load environment maps, using basic materials instead");
     }
 
-    const dottedMaterial = createShaderMaterial(ToonShaderDotted, pointLight, ambientLight );
-  
     // Create and return material dictionary
     return {
       'shiny': new THREE.MeshStandardMaterial({ 
@@ -79,8 +72,7 @@
         specular: 0xc1c1c1, 
         shininess: 250 
       }),
-      'multiColors': new THREE.MeshPhongMaterial( { shininess: 2, vertexColors: true } ),
-      'dotted': dottedMaterial
+      'multiColors': new THREE.MeshPhongMaterial( { shininess: 2, vertexColors: true } )
     };
   }
   
@@ -148,8 +140,8 @@
     
     // Create marching cubes effect
     effect = new MarchingCubes(resolution, materials[current_material], true, true, 100000);
-    effect.position.set(0, 0, 0);
-    effect.scale.set(700, 700, 700);
+    effect.position.set(position[0], position[1], position[2]);
+    effect.scale.set(scale[0], scale[1], scale[2]);
     
     loaded = true;
   });
