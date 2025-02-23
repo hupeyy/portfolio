@@ -13,7 +13,7 @@
   export let floor = true;
   export let wallx = false;
   export let wallz = false;
-  export let position = [0, 7.1, 0];
+  export let position = [.35, 7.1, .35];
   export let scale = [10, 10, 10];
   
   // Component variables
@@ -126,9 +126,9 @@
     }
   
     // Add planes
-    if (floor) object.addPlaneY(2, 12);
-    if (wallz) object.addPlaneZ(2, 12);
-    if (wallx) object.addPlaneX(2, 12);
+    if (floor) object.addPlaneY(2, 10);
+    if (wallz) object.addPlaneZ(2, 10);
+    if (wallx) object.addPlaneX(2, 10);
   
     object.update();
   }

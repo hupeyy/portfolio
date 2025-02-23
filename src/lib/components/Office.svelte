@@ -6,7 +6,7 @@
   const gltf = useGltf('/models/office_desk/scene.gltf')
   
   export let scale = 3;
-  export let position: [number, number, number] = [0, 0, -15];
+  export let position: [number, number, number] = [0, 0, -35];
 </script>
 
 {#if $gltf}

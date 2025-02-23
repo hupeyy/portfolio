@@ -18,7 +18,7 @@
 			positionY = Math.sin(time * frequency) * amplitude + 4.5;
 		})
 
-		export let positionX = 5;
+		export let positionX = 0;
 		export let positionZ = 15;
 		export let scale = 1;
 
