@@ -1,6 +1,5 @@
 <script lang="ts">
-  import * as THREE from 'three'
-  import { T, useTask } from '@threlte/core'
+  import { T } from '@threlte/core'
   import { 
     interactivity, 
     InstancedMeshes, 
