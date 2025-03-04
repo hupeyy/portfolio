@@ -15,6 +15,7 @@
   const socialMediaTextures = [
     "/textures/github-mark/github-mark-white.png",
     "/textures/linkedin-icon.png",
+    "/textures/email.png"
   ];
   const arrowTexture = "/textures/arrow.png";
 
@@ -38,7 +39,7 @@
         
         // Add slight offset
         screenGroup.position.add(normal.multiplyScalar(0.001));
-        screenGroup.rotateY(Math.PI / 2.5);
+        screenGroup.rotateY(Math.PI / 2.65);
         screenGroup.translateZ(-0.035);
         screenGroup.translateY(0.01);
         
@@ -50,7 +51,8 @@
         const socialMaterial = new THREE.MeshBasicMaterial({
           map: socialTexture,
           side: THREE.DoubleSide,
-          transparent: true
+          transparent: true,
+          color: 0xffffff
         });
         
         const socialPlane = new THREE.Mesh(socialGeometry, socialMaterial);
@@ -75,7 +77,7 @@
         arrowLeftPlane.name = "arrow_left";
         arrowLeftPlane.rotateZ(.1);
         arrowLeftPlane.rotateY(Math.PI);
-        arrowLeftPlane.translateY(0.01);
+        
         screenGroup.add(arrowLeftPlane);
         
         // right arrow
@@ -121,19 +123,20 @@
         case 1:
           window.open("https://www.linkedin.com/in/alex-huper/", "_blank");
           break;
+        case 2:
+          window.open("mailto:alexanderhuper@gmail.com", "_blank");
+          break;
       }
     }
 
     const socialPlane = e.object.parent.getObjectByName("social_icon");
     socialPlane.material.map = new THREE.TextureLoader().load(socialMediaTextures[currentSocial]);
     socialPlane.material.map.colorSpace = 'srgb';
-  }
-
+  };
 
   $: if ($gltf) {
-    console.log("GLTF loaded");
     addScreenOverlay($gltf.scene);
-  }
+  };
 </script>
 
 {#if $gltf}

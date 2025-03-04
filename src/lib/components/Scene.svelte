@@ -15,6 +15,7 @@
   import TestTube from './TestTube.svelte'
   import Office from './Office.svelte'
   import ProjectShowcase from './ProjectShowcase.svelte';
+  import Resume from './Resume.svelte'
 	import { PerspectiveCamera } from 'three';
   import { browser } from '$app/environment'
   import { onMount } from 'svelte'
@@ -89,15 +90,19 @@
 />
 
 <!-- Lighting -->
-<T.AmbientLight intensity={3} color="#323232" />
-<T.DirectionalLight intensity={3} position={[0.5, 0.5, 1]} />
-<T.PointLight intensity={3} position={[0, 0, 100]} color="#ff7c00" />
-
+<T.AmbientLight 
+  intensity={.1}
+/>
+<T.DirectionalLight
+  position={[-20, 10, 0]}
+  intensity={1}
+  
+/>
 
 <Grid
   cellColor="#000000"
   sectionColor="#000000"
-  sectionThickness={2}
+  sectionThickness={1.5}
   gridSize={100}
 />
 
@@ -112,3 +117,6 @@
 
 <!-- Column -->
 <ProjectShowcase />
+
+<!-- Resume Cube -->
+<Resume />

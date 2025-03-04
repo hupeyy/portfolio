@@ -4,49 +4,115 @@
     interactivity, 
     InstancedMeshes, 
     useGltf,
-    Outlines,
+    GLTF
   } from '@threlte/extras'
   import { Tween } from 'svelte/motion'
   import { cubicOut } from 'svelte/easing'
+	import { onMount } from 'svelte';
   
   interactivity();
 
-  const gap = 3;
-  export let origin: [number, number, number] = [15, 0, -(gap + gap / 2)];
+  let smallDevice = false;
+  let gap: number = $state<number>(0);
+  let origin: [number, number, number] = $state<[number, number, number]>([0, 0, 0]);
+  const breakPoint = 1024;
 
-  const gltf = useGltf('/models/doric_marble_column/scene.gltf')
+  onMount(() => {
+    if (window.innerWidth <= breakPoint) {
+      smallDevice = true;
+      gap = 1.2 + window.innerWidth / breakPoint;
+      origin = [25, .2, (gap + gap / 2)];
+    } else {
+      smallDevice = false;
+      gap = 2.3;
+      origin = [30, .2, (gap + gap / 2)];
+    }
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= breakPoint) {
+        smallDevice = true;
+        gap = 1.55 + window.innerWidth / breakPoint;
+        origin = [20, .2, (gap + gap / 2)];
+      } else {
+        smallDevice = false;
+        gap = 2.3;
+        origin = [30, .2, (gap + gap / 2)];
+      }
+    });
+  });
+
+  const columnGLTF = useGltf('/models/doric_marble_column/scene.gltf')
   const numInstances = 4
-  const columnPositions = Array.from({ length: numInstances }, (_, i) => ({
-    x: origin[0] + 0,
-    y: origin[1] + 0,
-    z: origin[2] + (i * gap),
+  let columnPositions = $derived(Array.from({ length: numInstances }, (_, i) => ({
+    x: origin[0],
+    y: origin[1], 
+    z: origin[2] - (i * gap),
     scale: 2
-  }))
+  })))
 
-  const projectPositions = Array.from({ length: numInstances }, (_, i) => ({
-    x: origin[0] + 0,
-    y: origin[1] + 5,
-    z: origin[2] + (i * gap),
-    scale: 2
-  }))
+  // Define project data with URLs
+  const projectData = [
+    { 
+      // Connect 4 AI
+      url: '/models/connect_4/scene.gltf',
+      link: "https://github.com/hupeyy/AI-Connect4",
+      scale: .125, 
+      yOffset: .45, 
+      rotateY: Math.PI / 2
+    },
+    { 
+      // Telegram Bot
+      url: '/models/vintage_robot_toy/scene.gltf', 
+      link: "https://github.com/hupeyy/ecabot",
+      scale: .25, 
+      yOffset: .5,
+      rotateY: Math.PI / 2
+    },
+    { 
+      // ColorStack UF Website
+      url: '/models/retro_computer/scene.gltf',
+      link: "https://uf.colorstack.org",
+      scale: .0125,
+      yOffset: .43, 
+      rotateY: Math.PI / 2
+    },
+    { 
+      // AIDE 
+      url: '/models/first_aid_kit/scene.gltf',
+      link: "https://aide.zy-j.com/",
+      scale: .25,
+      yOffset: -.03,
+      rotateY: 0
+    },
+  ]
 
-  let selectedProject: number = 0;
-  let tweens = projectPositions.map(pos => 
-    new Tween(pos.y, {
-      duration: 300,
-      easing: cubicOut
-    })
-  );
+  // Create position data for projects
+  let projectPositions = $derived(Array.from({ length: Math.min(numInstances, projectData.length) }, (_, i) => ({
+    x: origin[0],
+    y: origin[1] + 5 - projectData[i].yOffset,
+    z: origin[2] - (i * gap),
+    rotateY: projectData[i].rotateY,
+    scale: projectData[i].scale,
+    hovering: false
+  })))
+
+  // Create tweened stores for each project's Y position
+  // let projectTweens = projectPositions.map(pos => 
+  //   new Tween(pos.y, {
+  //     duration: 300,
+  //     easing: cubicOut
+  //   })
+  // );
 </script>
 
 <!-- Columns -->
-{#if $gltf}
+{#if $columnGLTF}
   <InstancedMeshes 
-    meshes={$gltf.nodes}
+    meshes={$columnGLTF.nodes}
     frustumCulled={false}
   >
     {#snippet children({ components })}
-      {#each columnPositions as pos}
+      {#each columnPositions as pos, i}
         <T.Group 
           position={[pos.x, pos.y, pos.z]}
           scale={pos.scale}
@@ -61,26 +127,15 @@
   </InstancedMeshes>
 {/if}
 
-
-<!-- Objects on Columns -->
-{#each projectPositions as pos, i}
-  <T.Group position={[pos.x, tweens[i].current, pos.z]}>
-    <T.Mesh
-      onpointerenter={() => {
-        selectedProject = i;
-        tweens[i].set(pos.y + 0.5);
-      }}
-      onpointerleave={() => {
-        tweens[i].set(pos.y);
-      }}
-    >
-      <T.BoxGeometry args={[1, 1, 1]} />
-      {#if selectedProject === i}
-        <T.MeshStandardMaterial color="#00ff00" />
-        <Outlines thickness={.5} color="blue" screenspace/>
-      {:else}
-        <T.MeshStandardMaterial color="#ff0000" />
-      {/if}
-    </T.Mesh>
+{#each projectData as proj, i}
+  <T.Group>
+    <GLTF
+      url={proj.url}
+      scale={projectPositions[i].scale}
+      position={[projectPositions[i].x, projectPositions[i].y, projectPositions[i].z]}
+      rotation={[0, projectPositions[i].rotateY, 0]}
+      interactive
+      onclick={() => window.open(proj.link, "_blank")}
+    />  
   </T.Group>
 {/each}

@@ -1,0 +1,11 @@
+Model Information:
+* title:	First Aid Kit
+* source:	https://sketchfab.com/3d-models/first-aid-kit-7e596619db6e4434af091a40a43d9d30
+* author:	sookendestroy1 (https://sketchfab.com/sookendestroy1)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "First Aid Kit" (https://sketchfab.com/3d-models/first-aid-kit-7e596619db6e4434af091a40a43d9d30) by sookendestroy1 (https://sketchfab.com/sookendestroy1) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
