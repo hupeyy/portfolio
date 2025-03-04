@@ -4,7 +4,7 @@
   import { Canvas } from '@threlte/core';
   import Scene from '$lib/components/Scene.svelte';
 
-  let currentPage: string = "Resume";
+  let currentPage: string = "About";
 </script>
 
 <div class="relative h-screen">

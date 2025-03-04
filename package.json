@@ -30,14 +30,11 @@
 	"dependencies": {
 		"@threlte/core": "^8.0.1",
 		"@threlte/extras": "^9.0.1",
-		"ammo.js": "^0.0.10",
 		"camera-controls": "^2.10.0",
-		"react-three-fiber": "^6.0.13",
 		"stats.js": "^0.17.0",
 		"svelte-motion": "^0.12.2",
 		"svelte-tweakpane-ui": "^1.5.2",
-		"svelte-typewriter": "^3.2.3",
-		"three": "^0.172.0"
+		"svelte-typewriter": "^3.2.3"
 	},
 	"overrides": {
 		"cookie": "^0.7.0"
