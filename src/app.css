@@ -4,7 +4,11 @@
 
 @layer base {
     @font-face {
-        font-family: JetBrainsMono;
+        font-family: "jetbrains-mono";
         src: url(font/JetBrainsMono-Regular.woff2) format('woff2');
     }
+}
+
+* {
+    font-family: 'jetbrains-mono', monospace;
 }

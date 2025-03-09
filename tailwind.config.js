@@ -9,8 +9,8 @@ export default {
 	theme: {
 		extend: {},
 		fontFamily: {
-      		sans: ['"JetBrains Mono"', 'sans-serif']
-    	},
+			jetBrains: ['jetbrains-mono', 'sans'],
+		}
 	},
 
 	plugins: [typography, forms, containerQueries]
