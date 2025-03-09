@@ -6,8 +6,6 @@
     useGltf,
     GLTF
   } from '@threlte/extras'
-  import { Tween } from 'svelte/motion'
-  import { cubicOut } from 'svelte/easing'
 	import { onMount } from 'svelte';
   
   interactivity();

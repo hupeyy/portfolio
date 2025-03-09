@@ -4,11 +4,7 @@
     useTask, 
     useThrelte 
   } from '@threlte/core'
-  import { 
-    OrbitControls,
-    Environment, 
-    Grid,
-  } from '@threlte/extras'
+  import { Grid } from '@threlte/extras'
   import CameraControls from './CameraControls'
   import type CC from 'camera-controls'
   import MarchingCubes from './MarchingCubes.svelte'
@@ -16,22 +12,29 @@
   import Office from './Office.svelte'
   import ProjectShowcase from './ProjectShowcase.svelte';
   import Resume from './Resume.svelte'
-	import { PerspectiveCamera } from 'three';
+	import { PerspectiveCamera, Vector3 } from 'three';
   import { browser } from '$app/environment'
-  import { onMount } from 'svelte'
+  import { onDestroy, onMount } from 'svelte'
+  import { Spring } from 'svelte/motion'
   
   const { dom, invalidate } = useThrelte()
   const camera = new PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000)
   let controls: CC;
 
+  let cameraDist = 40;
+  let cameraHeight = 5;
+
   onMount(() => {
     if (browser) {
-      controls = new CameraControls(dom, camera) 
+      controls = new CameraControls(dom, camera)
+      controls.enabled = false 
     }
+  })
 
-    // controls.addEventListener('update', () => {
-    //   console.log(camera.position)
-    // })
+  useTask((delta) => {
+    if (controls.update(delta)) {
+      invalidate()
+    }
   })
 
   let { currentPage } = $props<{
@@ -46,33 +49,38 @@
     }
   });
 
-  let cameraDist = 40;
-  let cameraHeight = 5;
   // Camera position
   $effect(() => { 
-      if (controls && currentPage) {
-        switch(currentPage){
-          case "About":
-            controls.setLookAt(0, cameraHeight, cameraDist, 0, 0, 0, true);
-            break;
-          case "Projects":
-            controls.setLookAt(cameraDist, cameraHeight, 0, 0, 0, 0, true);
-            break;
-          case "Contact":
-            controls.setLookAt(0, cameraHeight, -cameraDist, 0, 0, 0, true);
-            break;
-          case "Resume":
-            controls.setLookAt(-cameraDist, cameraHeight, 0, 0, 0, 0, true);
-            break;
-        }
+    if (controls && currentPage) {
+      let angle = 0;
+      switch(currentPage){
+        case "About":
+          angle = 0;
+          break;
+        case "Projects":
+          angle = Math.PI / 2;
+          break;
+        case "Contact":
+          angle = Math.PI;
+          break;
+        case "Resume":
+          angle = -Math.PI / 2;
+          break;
       }
-  });
-
-  useTask((delta) => {
-    if (controls?.update(delta)) {
-      invalidate();
+      
+      const x = Math.sin(angle) * cameraDist;
+      const z = Math.cos(angle) * cameraDist;
+      
+      controls.setLookAt(
+        x,
+        cameraHeight,
+        z,
+        0, 0, 0,
+        true
+      );
     }
-  }, { autoInvalidate: false });
+  });
+ 
 
   // Cleanup
   $effect(() => {
@@ -90,14 +98,16 @@
 />
 
 <!-- Lighting -->
-<T.AmbientLight 
-  intensity={.1}
+<T.AmbientLight intensity={.1} />
+<T.DirectionalLight
+  position={[-10, 5, -10]}
+  intensity={.5}
 />
 <T.DirectionalLight
-  position={[-20, 10, 0]}
-  intensity={1}
-  
+  position={[10, 5, 10]}
+  intensity={.5}
 />
+
 
 <Grid
   cellColor="#000000"
